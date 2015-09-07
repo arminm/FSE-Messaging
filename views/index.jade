@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.top
+    form(name="login", action="/chatroom", method="get")
+      label Username
+      input.span3(id="username", type="text", name="name", placeholder="Enter your username")
+      input.btn.span3(type="submit", value="Log In")

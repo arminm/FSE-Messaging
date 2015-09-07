@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  dev.top
+    label= sender
+  div.container#messages-container
+    each message in messages
+      p#timestamp= message.timestamp
+      p= message.sender 
+      p= message.body
+  div.footer
+    form(name="sendMessage", action="/chatroom", method="post")
+      input.span3(id="message", type="text", name="message", placeholder="Send a message...")
+      input.btn.span3(type="submit", value="Send")
