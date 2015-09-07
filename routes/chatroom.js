@@ -15,18 +15,7 @@ if(!exists) {
 }
 var messages = [];
 db.serialize(function() {
- 
-  // 	var stmt = db.prepare('INSERT INTO messages VALUES (?, ?, ?)');
-  // 	var date = new Date();
-  // 	var options = { hour: '2-digit', minute: '2-digit', second: '2-digit', year: 'numeric', month: 'numeric', day: 'numeric' };
-  // 	for (var i = 0; i < 10; i++) {
-  // 		stmt.run('message ' + i, date.toLocaleDateString('en-US', options), 'Armin');
- 	// }
-
-  // 	stmt.finalize();
-
   	db.each('SELECT rowid AS id, * FROM messages', function(err, row) {
-    	// console.log(row.id + ': ' + row.sender + ': ' + row.body + '  -  ' + row.timestamp);
     	messages.push(row);
   	});
 });

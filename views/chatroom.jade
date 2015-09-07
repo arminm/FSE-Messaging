@@ -5,23 +5,44 @@ block content
   script(src="https://cdn.socket.io/socket.io-1.2.0.js")
   script(src="http://code.jquery.com/jquery-1.11.1.js")
   script.
-    var socket = io()
-    $('sendMessage').submit(function(){
-      socket.emit('chat message', $('#message').val());
+    var socket = io();
+    var sender = '#{sender}';
+    $(function() {
+      function scrollToBottom(animated) {
+      	if (animated) {
+          $("#messages-container").animate({ scrollTop: $('#messages-container')[0].scrollHeight}, 1000);
+      	} else {
+      	  $("#messages-container").scrollTop($('#messages-container')[0].scrollHeight);
+      	}
+      }
+      window.onload=function () {
+    	scrollToBottom(false);
+      }
+      $( '#sendMessage' ).submit(function(){
+      	var date = new Date();
+        var options = { hour: '2-digit', minute: '2-digit', second: '2-digit', year: 'numeric', month: 'numeric', day: 'numeric' };
+        socket.emit('message sent', {body:  $('#message').val(), timestamp: date.toLocaleDateString('en-US', options), sender: sender});
+    	$('#message').val('');
+        return false;
+      });
+      socket.on('message received', function(msg){
+        $('#messages-container').append($("<p id='timestamp'>").text(msg.timestamp));
+        $('#messages-container').append($("<p id='message-sender'>").text(msg.sender));
+        $('#messages-container').append($("<p id='message-body'>").text(msg.body));
+        scrollToBottom(true);
+      });
     });
+    
 
   dev.top
     label= sender
   div.container#messages-container
     each message in messages
       p#timestamp= message.timestamp
-      p= message.sender 
-      p= message.body
+      p#message-sender= message.sender 
+      p#message-body= message.body
 
   p 
-    form(name="sendMessage", action="")
+    form(id="sendMessage")
       input.span3(id="message", type="text", name="message", autocomplete="off", placeholder="Send a message...")
-      input.btn.span3(type="submit", value="Send")
-
-
-
+      input.btn.span3(id="button", type="submit", value="Send")

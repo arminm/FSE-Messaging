@@ -16,4 +16,14 @@ a {
 
 #timestamp {
 	float: right;
+	padding-right: 10px;
+}
+
+#message-sender {
+	padding-left: 10px;
+}
+
+#message-body {
+	padding-left: 20px;
+	background-color: rgb(204, 225, 235);
 }

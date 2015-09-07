@@ -1,8 +1,18 @@
 extends layout
 
 block content
+  script(src="http://code.jquery.com/jquery-1.11.1.js")
+  script.
+    $(function() {
+      $( '#login' ).submit(function(){
+        if ( $('#name').val().length == 0 ) {
+          $('#name').val('Anonymous')
+        }
+      });
+    });
+    
   div.top
-    form(name="login", action="/chatroom", method="get")
-      label Username
-      input.span3(id="username", type="text", name="name", placeholder="Enter your username")
-      input.btn.span3(type="submit", value="Log In")
+    form(id='login', name="login", action="/chatroom", method="get")
+      label Name:
+      input.span3(id="name", type="text", name="name", placeholder="Enter your name...")
+      input.btn.span3(type="submit", value="Start Chatting!")
