@@ -1,6 +1,15 @@
 extends layout
 
 block content
+  script(src="/socket.io/socket.io.js")
+  script(src="https://cdn.socket.io/socket.io-1.2.0.js")
+  script(src="http://code.jquery.com/jquery-1.11.1.js")
+  script.
+    var socket = io()
+    $('sendMessage').submit(function(){
+      socket.emit('chat message', $('#message').val());
+    });
+
   dev.top
     label= sender
   div.container#messages-container
@@ -8,7 +17,11 @@ block content
       p#timestamp= message.timestamp
       p= message.sender 
       p= message.body
-  div.footer
-    form(name="sendMessage", action="/chatroom", method="post")
-      input.span3(id="message", type="text", name="message", placeholder="Send a message...")
+
+  p 
+    form(name="sendMessage", action="")
+      input.span3(id="message", type="text", name="message", autocomplete="off", placeholder="Send a message...")
       input.btn.span3(type="submit", value="Send")
+
+
+

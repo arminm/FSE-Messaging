@@ -1,4 +1,5 @@
 var express = require('express');
+var http = require('http');
 var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -7,7 +8,9 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var chatroom = require('./routes/chatroom');
 
-var app = express();
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io').listen(http);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -51,6 +54,18 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: {}
   });
+});
+
+// Socket.io:
+io.on('connection', function(socket){
+  console.log('message received...');
+  socket.on('chat message', function(msg){
+    console.log('message: ' + msg);
+  });
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
 });
 
 module.exports = app;

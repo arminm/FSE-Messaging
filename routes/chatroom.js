@@ -33,9 +33,8 @@ db.serialize(function() {
 
 db.close();
 
-/* GET users listing. */
+/* GET messages. */
 router.get('/', function(req, res, next) {
-
   res.render('chatroom', { messages: messages, sender: req.query.name});
 });
 
